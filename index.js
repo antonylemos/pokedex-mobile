@@ -1,3 +1,5 @@
+import '@/ui/styles';
+
 import { registerRootComponent } from 'expo';
 
 import App from './App';
