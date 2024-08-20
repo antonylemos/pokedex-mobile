@@ -16,14 +16,4 @@ export const stylesheet = createStyleSheet((theme, rt) => ({
     marginTop: theme.spacings.xxlg + theme.spacings.xlg,
     gap: theme.spacings.sm,
   },
-  title: {
-    color: theme.colors.textBlack,
-    ...theme.fonts.families.bold,
-    ...theme.fonts.sizes.lg,
-  },
-  text: {
-    color: theme.colors.textGray,
-    ...theme.fonts.families.regular,
-    ...theme.fonts.sizes.md,
-  },
 }));

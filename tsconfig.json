@@ -5,5 +5,9 @@
       "@/*": ["src/*"]
     }
   },
-  "extends": "expo/tsconfig.base"
+  "extends": "expo/tsconfig.base",
+  "exclude": [
+    "./actions-runner",
+    "./coverage"
+  ]
 }

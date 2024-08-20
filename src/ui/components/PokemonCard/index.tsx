@@ -1,35 +1,41 @@
-import { View } from 'react-native';
+import React from 'react';
+import { Pressable } from 'react-native';
 import { useStyles } from 'react-native-unistyles';
 
-import { Bullets } from '@/assets/patterns/Bullets';
-import { PokeballSmall } from '@/assets/patterns/PokeballSmall';
+import { Bullets, PokeballSmall } from '@/assets/patterns';
+import {
+  capitalizeFirstLetter,
+  generatePokedexNumber,
+} from '@/ui/styles/utils';
 
 import { Typography } from '../Typography';
 
 import { stylesheet } from './styles';
 
-export function PokemonCard({ id, name }: { id: number; name: string }) {
+export function PokemonCard({
+  id,
+  name,
+  action,
+}: {
+  id: number;
+  name: string;
+  action: () => void;
+}) {
   const { styles, theme } = useStyles(stylesheet);
 
-  function capitalizeFirstLetter(text: string): string {
-    if (!text) return text;
-
-    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
-  }
-
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={action}>
       <Bullets style={styles.bulletPattern} />
 
       <PokeballSmall style={styles.pokeballPattern} />
 
       <Typography size="sm" weight="bold" color={theme.colors.textNumber}>
-        #{id.toString().padStart(3, '0')}
+        {generatePokedexNumber(id)}
       </Typography>
 
       <Typography size="lg" weight="bold" color={theme.colors.textWhite}>
         {capitalizeFirstLetter(name)}
       </Typography>
-    </View>
+    </Pressable>
   );
 }
