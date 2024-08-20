@@ -1,7 +1,8 @@
-import { useRoute } from '@react-navigation/native';
-import { View, Image } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { View, Image, Pressable } from 'react-native';
 import { useStyles } from 'react-native-unistyles';
 
+import { useFavoritePokemonStore } from '@/app/stores';
 import { Typography } from '@/ui/components';
 import {
   capitalizeFirstLetter,
@@ -19,9 +20,14 @@ export function PokemonResume() {
   const route = useRoute();
   const params = route.params as { pokemonName: string };
 
+  const { goBack } = useNavigation();
+
   const { data: pokemon, isLoading } = useGetPokemonResumeQuery({
     pokemonName: params.pokemonName,
   });
+
+  const { favoritePokemon, isFavorite, unfavoritePokemon } =
+    useFavoritePokemonStore();
 
   if (isLoading) {
     return <Typography>Carregando...</Typography>;
@@ -36,6 +42,14 @@ export function PokemonResume() {
         ),
       }}
     >
+      <View style={styles.navigation}>
+        <Pressable style={styles.backButton} onPress={goBack}>
+          <Typography color={theme.colors.textWhite} size="md" weight="medium">
+            Back
+          </Typography>
+        </Pressable>
+      </View>
+
       <View style={styles.header}>
         <Image
           width={124}
@@ -87,6 +101,21 @@ export function PokemonResume() {
             </Typography>
           ))}
         </View>
+      </View>
+
+      <View style={styles.footer}>
+        <Pressable
+          style={styles.button}
+          onPress={() =>
+            isFavorite(pokemon.id)
+              ? unfavoritePokemon(pokemon.id)
+              : favoritePokemon(pokemon)
+          }
+        >
+          <Typography color={theme.colors.textWhite} size="md" weight="medium">
+            {isFavorite(pokemon.id) ? 'Unfavorite!' : 'Favorite!'}
+          </Typography>
+        </Pressable>
       </View>
     </View>
   );

@@ -1,5 +1,6 @@
+import { IPokemonResumeDomain } from '@/app/types/entities/PokemonDomain';
+
 import {
-  IPokemonResumeDomain,
   IPokemonResumeResponse,
   IPokemonSpeciesResponse,
 } from '../entities/PokemonsList';
