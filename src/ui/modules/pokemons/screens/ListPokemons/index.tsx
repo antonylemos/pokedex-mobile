@@ -1,10 +1,15 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useMemo } from 'react';
 import { ActivityIndicator, TextInput, View } from 'react-native';
 import { useStyles } from 'react-native-unistyles';
 
-import { Pokeball } from '@/assets/patterns/Pokeball';
-import { AnimatedFlatList, PokemonCard, Typography } from '@/ui/components';
-import { Space } from '@/ui/components/Space';
+import { Pokeball } from '@/assets/patterns';
+import {
+  AnimatedFlatList,
+  PokemonCard,
+  Space,
+  Typography,
+} from '@/ui/components';
 
 import { useGetPokemonsQuery } from '../../api/client/useGetPokemonsQuery';
 
@@ -12,6 +17,8 @@ import { stylesheet } from './styles';
 
 export function ListPokemons() {
   const { styles } = useStyles(stylesheet);
+
+  const navigation = useNavigation();
 
   const { data, hasNextPage, fetchNextPage, isLoading } = useGetPokemonsQuery();
 
@@ -28,7 +35,15 @@ export function ListPokemons() {
         data={flatData}
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => (
-          <PokemonCard name={item.name} id={index + 1} />
+          <PokemonCard
+            name={item.name}
+            id={index + 1}
+            action={() =>
+              navigation.navigate('pokemon-resume', {
+                pokemonName: item.name,
+              })
+            }
+          />
         )}
         onEndReached={() => hasNextPage && fetchNextPage()}
         ItemSeparatorComponent={Space}
